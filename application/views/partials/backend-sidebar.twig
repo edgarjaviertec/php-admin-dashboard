@@ -1,0 +1,50 @@
+<div class="sidebar" role="navigation">
+    <div class="sidebar-nav collapse navbar-collapse show" id="side-menu-wrapper">
+        <ul class="nav navbar-nav navbar-collapse flex-column side-nav list-group" id="side-menu">
+            {#<li class="sidebar-search">#}
+                {#<div class="input-group custom-search-form">#}
+                    {#<input type="text" class="form-control" placeholder="Search...">#}
+                    {#<span class="input-group-btn">#}
+                        {#<button class="btn btn-white" type="button">#}
+                            {#<i class="fa fa-search"></i>#}
+                        {#</button>#}
+                    {#</span>#}
+                {#</div>#}
+            {#</li>#}
+            <li class="list-group-item">
+                <a href="index.html">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="forms.html">
+                    <i class="fas fa-users"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="forms.html">
+                    <i class="fas fa-user-lock"></i>
+                    <span>Roles</span>
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="#">
+                    <i class="fas fa-key"></i>
+                    <span>Permisos</span>
+                    <i class="fa arrow"></i>
+                </a>
+                <ul class="nav-second-level list-group nested">
+                    <li class="list-group-item">
+                        <a href="/backend/permissions">Lista de permisos</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="/backend/assign-permissions">Asignar permisos</a>
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

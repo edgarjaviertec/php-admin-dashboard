@@ -1,0 +1,34 @@
+{% extends "layouts/base.twig" %}
+{% block content %}
+    {% if flashMessages is defined %}
+        {{flashMessages|raw}}
+    {% endif %}
+    {% if session is defined %}
+        <pre>{{ session | raw }}</pre>
+    {% endif %}
+    <form action="/login" method="post">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <div class="form-group">
+            <label for="inputEmail">Email address</label>
+            <input type="email"
+                   id="inputEmail"
+                   name="inputEmail"
+                   class="form-control"
+                   placeholder="Email address"
+                   autocomplete="off"
+                   autofocus>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password"
+                   id="inputPassword"
+                   name="inputPassword"
+                   class="form-control"
+                   placeholder="Password"
+            >
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </div>
+    </form>
+{% endblock %}

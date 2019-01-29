@@ -1,0 +1,17 @@
+{
+    "name": "edgar/middleware",
+    "authors": [
+        {
+            "name": "Edgar Tec",
+            "email": "edgartec87@gmail.com"
+        }
+    ],
+    "require": {
+        "bramus/router": "^1.3",
+        "twig/twig": "~1.0",
+        "usmanhalalit/pixie": "^2.0",
+        "plasticbrain/php-flash-messages": "^1.0",
+        "vlucas/valitron": "^1.4",
+        "jbzoo/utils": "^2.2"
+    }
+}
