@@ -52,14 +52,14 @@
     transition: 0.2s all;
 }
 .switch input:checked + label::before {
-    background-color: #08d;
+    background-color: #007bff;
 }
 .switch input:checked + label::after {
     margin-left: calc(2.375rem * .8);
 }
 .switch input:focus + label::before {
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(0, 136, 221, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 .switch input:disabled + label {
     color: #868e96;
@@ -109,11 +109,3 @@
 .switch + .switch {
     margin-left: 1rem;
 }
-
-/*body {*/
-    /*padding: 1rem;*/
-/*}*/
-
-/*.dropdown-menu {*/
-    /*margin-top: .75rem;*/
-/*}*/

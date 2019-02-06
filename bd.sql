@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 29-01-2019 a las 18:00:51
+-- Tiempo de generación: 07-02-2019 a las 00:19:09
 -- Versión del servidor: 5.5.42
 -- Versión de PHP: 5.6.10
 
@@ -25,31 +25,24 @@ CREATE TABLE `permissions` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `display_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `permissions`
 --
 
 INSERT INTO `permissions` (`id`, `name`, `display_name`, `description`) VALUES
-(1, 'assign-roles-to-user333', '', ''),
-(2, 'remove-roles-from-user', 'Remove roles from user', ''),
-(3, 'list-users', 'List users', ''),
+(1, 'permiso1', 'YYY', 'ZZZxxxx'),
+(3, 'permiso3', 'List users', ''),
 (4, 'create-users', NULL, 'xgfgrg'),
-(5, 'read-users2', NULL, 'fdsfdsf'),
-(6, 'update-users', 'Update users', ''),
-(7, 'delete-users55555', '', 'fdgdfgd'),
-(8, 'assign-permissions-to-role', 'Assign permissions to role', ''),
-(9, 'remove-permissions-from-role', 'Remove permissions from role', ''),
-(12, 'read-roles', 'Read roles', ''),
-(13, 'update-roles', 'Update roles', ''),
-(14, 'delete-roles', 'Delete roles', ''),
-(15, 'list-permissions', 'List permissions', ''),
-(16, 'create-permissions', 'Create permissions', ''),
-(17, 'read-permissions', 'Read permissions', ''),
-(18, 'update-permissions', 'Update permissions', ''),
-(19, 'delete-permissions', 'Delete permissions', ''),
-(20, 'vfdgfdg', 'fgfdg', 'dgdfg');
+(5, 'permiso5', 'dfff', 'fdsfdsf'),
+(20, 'asdasd', 'asdsad', 'asdsad'),
+(21, 'adsdsad', 'asdsa', 'dasdad'),
+(22, 'adsad', 'dasdsad', 'asdasd'),
+(23, 'asdasd', 'asdsad', 'asdad'),
+(24, 'asdad', 'sada', 'dadasd'),
+(25, 'asdsad', 'ada', 'dsadad'),
+(26, 'fdsfs', 'fdsfs', 'fsdfsdf');
 
 -- --------------------------------------------------------
 
@@ -60,19 +53,17 @@ INSERT INTO `permissions` (`id`, `name`, `display_name`, `description`) VALUES
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `displayName` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL
+  `display_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `roles`
 --
 
-INSERT INTO `roles` (`id`, `name`, `displayName`, `description`, `createdAt`, `updatedAt`) VALUES
-(1, 'admin', 'The Administrator Role', 'Somebody with access to the API administration features and all other features.', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'user', 'The User Role', 'Somebody who can only manage their profile.', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `roles` (`id`, `name`, `display_name`, `description`) VALUES
+(1, 'admin', 'Administrador', 'Somebody with access to the API administration features and all other features.'),
+(2, 'user', 'Usuario', 'Somebody who can only manage their profile.');
 
 -- --------------------------------------------------------
 
@@ -91,23 +82,9 @@ CREATE TABLE `role_permissions` (
 
 INSERT INTO `role_permissions` (`role_id`, `permission_id`) VALUES
 (1, 1),
-(1, 2),
 (1, 3),
-(1, 4),
 (1, 5),
-(1, 6),
-(1, 7),
-(1, 8),
-(1, 9),
-(1, 12),
-(1, 13),
-(1, 14),
-(1, 15),
-(1, 16),
-(1, 17),
-(1, 18),
-(1, 19),
-(2, 3);
+(2, 1);
 
 -- --------------------------------------------------------
 
@@ -120,18 +97,18 @@ CREATE TABLE `users` (
   `username` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `confirmed` tinyint(1) DEFAULT '0',
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `account_status` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `confirmed`, `createdAt`, `updatedAt`) VALUES
-(1, 'admin', 'admin@hotmail.com', 'admin', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'edgar', 'edgar333@yopmail.com', '$2b$10$d0jGMqY/Fwzf.Dvucr3AKebZHSuAktzwi7zy4FpGGOYUw4zLARoYe', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `account_status`) VALUES
+(1, 'admin', 'admin@hotmail.com', '$2y$10$wPoSyX.JmIVdhaF4tdBAi.oZzhYXKcrokFEI5x2CL76j2DY4Kd8.i', 1),
+(14, 'usuario_de_prueba', 'test.user@yopmail.com', '$2y$10$xld9KX4XlbutMvlUZMs0GeNTXtnYxkko0LOzXjTqX2Dzc9ihDSvLO', 0),
+(16, 'fdsf', 'sdf@algo.com', '$2y$10$YMU6SgShDCJqC31iX/.Bv.oquWM7vzxuKzz5npe8X6p21xxep5RO.', 1),
+(17, 'tres', 'dasdas@algo.com', '$2y$10$lQsPzeW6rue0FUPijw4FrOG6aGdjmHtvR7kJ2DjwJd/DRk2bACE6y', 1);
 
 -- --------------------------------------------------------
 
@@ -149,9 +126,18 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
+(0, 0),
 (1, 1),
 (1, 2),
-(2, 2);
+(3, 2),
+(8, 1),
+(10, 2),
+(11, 2),
+(13, 2),
+(14, 1),
+(15, 2),
+(16, 2),
+(17, 2);
 
 --
 -- Índices para tablas volcadas
@@ -197,7 +183,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
@@ -207,4 +193,4 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;

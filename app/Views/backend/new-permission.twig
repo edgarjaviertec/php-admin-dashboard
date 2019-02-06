@@ -1,0 +1,36 @@
+{% extends "/layouts/Backend-base.twig" %}
+{% block content %}
+    {% if flashMessages is defined %}
+        {{ flashMessages|raw }}
+    {% endif %}
+    <div class="mb-3">
+        <h3 class="mb-0">
+            <span>Nuevo permiso</span>
+        </h3>
+    </div>
+    <div class="card bg-light">
+        <div class="card-body">
+            <form method="POST" action="/backend/permissions/store">
+                <input type="hidden" name="id">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nombre</label>
+                    <input type="name" class="form-control" id="name" name="name"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="displayName">Nombre a mostrar</label>
+                    <input type="text" class="form-control" id="displayName" name="displayName">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Descripción</label>
+                    <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="/backend/permissions" class="btn btn-lg btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-lg btn-primary">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

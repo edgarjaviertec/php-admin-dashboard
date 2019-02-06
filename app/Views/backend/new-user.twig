@@ -1,0 +1,55 @@
+{% extends "/layouts/Backend-base.twig" %}
+{% block content %}
+    {% if flashMessages is defined %}
+        {{ flashMessages|raw }}
+    {% endif %}
+    <div class="mb-3">
+        <h3 class="mb-0">
+            <span>Nuevo usuario</span>
+        </h3>
+    </div>
+    <div class="card bg-light">
+        <div class="card-body">
+            <form method="POST" action="/backend/users/create">
+                <input type="hidden" name="id">
+                <div class="form-group">
+                    <label for="name">Nombre de usuario</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Contraseña</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Rol</label>
+                    <select class="custom-select" id="role" name="role" required>
+                        <option value="" selected>Selecciona un rol</option>
+                        {% for role in roles %}
+                            <option value="{{ role.id }}">{{ role.display_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <span class="d-block mb-2">¿Desea que la cuenta de este usuario esté verificada?</span>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="radio1" name="accountStatus" class="custom-control-input" value="1"
+                               checked>
+                        <label class="custom-control-label" for="radio1">Si</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="radio2" name="accountStatus" class="custom-control-input" value="0">
+                        <label class="custom-control-label" for="radio2">No</label>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="/backend/users" class="btn btn-lg btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-lg btn-primary">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

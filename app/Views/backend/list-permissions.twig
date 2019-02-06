@@ -1,0 +1,146 @@
+{% extends "/layouts/Backend-base.twig" %}
+{% block external_css %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+{% endblock %}
+{% block content %}
+    {% if flashMessages is defined %}
+        {{ flashMessages|raw }}
+    {% endif %}
+
+
+
+    {% if ability("permiso1","permiso3","permiso5") %}
+        <div class="alert alert-primary" role="alert">
+            Tienes permiso para ver esto
+        </div>
+    {% else %}
+        <div class="alert alert-danger" role="alert">
+            Hay algo aquí pero no tienes permisos para verlo
+        </div>
+    {% endif %}
+
+
+    <div class="mb-5">
+        <h3 class="mb-0">
+            <span>Permisos</span>
+            <a href="/backend/permissions/create" class="ml-2 btn btn-primary">
+                <i class="fas fa-plus"></i>
+                <span>Nuevo permiso</span>
+            </a>
+
+
+            <a href="/backend/assign-permissions" class="ml-2 btn btn-primary">
+                <i class="fas fa-key"></i>
+                <span>Asignar permisos</span>
+            </a>
+        </h3>
+    </div>
+    <table id="dataTable" class="table table-sm dt-responsive w-100">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Permiso</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th class="no-sort">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for permission in permissions %}
+            {% set permIndex = loop.index %}
+            <tr>
+                <td class="align-middle">
+                    {{ permission.id }}
+                </td>
+                <td class="align-middle">
+                    {{ permission.name }}
+                </td>
+                <td class="align-middle">
+                    {{ permission.display_name }}
+                </td>
+
+                <td class="align-middle">
+                    {{ permission.description }}
+                </td>
+                <td class="align-middle text-right">
+                    <a href="/backend/permissions/{{ permission.id }}/edit" class="btn btn-info">
+                        <i class="fas fa-edit"></i>
+                        <span>Editar</span>
+                    </a>
+                    <form class="d-inline" method="POST" action="/backend/permissions/destroy">
+                        <input type="hidden" name="id" value="{{ permission.id }}">
+                        <button type="button"
+                                class="btn btn-danger"
+                                data-toggle="modal"
+                                data-target="#deleteModal">
+                            <i class="fas fa-trash-alt"></i>
+                            <span>Eliminar</span>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <!-- Modal de confirmación para eliminar usuarios -->
+    <div class="modal fade" id="deleteModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estas seguro de querer eliminar este permiso?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-ok="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block external_javascript %}
+    <script defer src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script defer src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script defer src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+{% endblock %}
+{% block inline_javascript %}
+    <script>
+        window.onload = function () {
+
+            $('#dataTable').DataTable({
+                "autoWidth": false,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                },
+                "columnDefs": [
+                    {
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    },
+                ],
+                "drawCallback": function () {
+                    var pagination = $(this).closest('.dataTables_wrapper').find('.dataTables_paginate');
+                    pagination.toggle(this.api().page.info().pages > 1);
+                }
+            });
+
+            // Aquí detectamos si el usuario hizo click en el botón aceptar del modal para eliminar
+            $('#deleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var modal = $(this);
+                modal.find('[data-ok=modal]').on("click", function (event) {
+                    event.preventDefault();
+                    var form = button.closest("form");
+                    form.submit();
+                })
+            });
+        };
+    </script>
+{% endblock %}

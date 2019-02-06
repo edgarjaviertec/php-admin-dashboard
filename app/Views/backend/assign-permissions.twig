@@ -1,0 +1,150 @@
+{% extends "/layouts/Backend-base.twig" %}
+{% block external_css %}
+    <link rel="stylesheet" href="/assets/css/bs4-switches.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+{% endblock %}
+{% block content %}
+    {% if flashMessages is defined %}
+        {{ flashMessages|raw }}
+    {% endif %}
+    <div class="mb-3">
+        <h3 class="mb-0">
+            <span>Asignar permisos</span>
+        </h3>
+    </div>
+
+
+    <div class="card bg-light">
+        <div class="card-body">
+            <form id="dataTableForm">
+                <table id="dataTable" class="table table-sm dt-responsive w-100">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Permisos</th>
+                        {% for role in roles %}
+                            <th class="no-sort">{{ role.name }}</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for permission in permissions %}
+                        {% set permissionIndex = loop.index %}
+                        <tr>
+                            <td class="align-middle">
+                                {{ permission.id }}
+                            </td>
+                            <td class="align-middle">
+                                {{ permission.name }}
+                            </td>
+                            {% for role in rolesAndPermissions %}
+                                <td class="align-middle">
+                                    {% set count = 0 %}
+                                    {% for userPermission in role.permissions %}
+                                        {% if permission.id == userPermission.permission_id %}
+                                            {% set count = count + 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if count>0 %}
+                                        <div class="form-group mb-0">
+                                <span class="switch">
+                                    <input type="checkbox"
+                                           class="switch"
+                                           id="checkbox-{{ role.role_id }}-{{ permissionIndex }}"
+                                           checked="checked"
+                                           name="permissions[{{ role.role_id }}][]"
+                                           value="{{ permission.id }}"
+                                    >
+                                    <label class="mb-0" for="checkbox-{{ role.role_id }}-{{ permissionIndex }}"><span
+                                                class="sr-only">true</span></label>
+                                </span>
+                                        </div>
+                                    {% else %}
+                                        <div class="form-group mb-0">
+                                <span class="switch">
+                                    <input type="checkbox"
+                                           class="switch"
+                                           id="checkbox-{{ role.role_id }}-{{ permissionIndex }}"
+                                           name="permissions[{{ role.role_id }}][]"
+                                           value="{{ permission.id }}"
+                                    >
+                                    <label class="mb-0" for="checkbox-{{ role.role_id }}-{{ permissionIndex }}"><span
+                                                class="sr-only">false</span></label>
+                                </span>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="form-group mt-3">
+                </div>
+
+
+
+                <div class="d-flex justify-content-between">
+                    <a href="/backend/permissions" class="btn  btn-lg btn-secondary">Cancelar</a>
+                    <button disabled id="btnSubmit" type="submit" class="btn btn-lg btn-primary">Guardar cambios</button>
+                </div>
+
+
+            </form>
+            <form id="permissionForm" action='/backend/assign-permissions' method="post"></form>
+        </div>
+    </div>
+
+{% endblock %}
+{% block external_javascript %}
+    <script defer src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script defer src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script defer src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+{% endblock %}
+{% block inline_javascript %}
+    <script>
+        window.onload = function () {
+            var table = $('#dataTable').DataTable({
+                "autoWidth": false,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                },
+                "columnDefs": [
+                    {
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    },
+                ],
+                "drawCallback": function () {
+                    var pagination = $(this).closest('.dataTables_wrapper').find('.dataTables_paginate');
+                    pagination.toggle(this.api().page.info().pages > 1);
+                }
+            });
+            // Si hay algún cambio en los switches entonces  activamos el botón de guardar cambios
+            $('#dataTable tbody').on('change', 'input[type="checkbox"]', function () {
+                $('#btnSubmit').removeAttr("disabled");
+            });
+            // Al hacer click en el botón "Guardar cambios" se agregan al formulario vacío "permissionForm"
+            // los atributos "name" y "value" de los switches que están en la tabla "dataTable"
+            // y se envía el formulario "permissionForm" en lugar del formulario "dataTableForm"
+            $('#dataTableForm').on('submit', function (e) {
+                e.preventDefault();
+                var form = $('#permissionForm');
+                var params = table.$('input,select,textarea').serializeArray();
+                $.each(params, function () {
+                    if (!$.contains(document, form[this.name])) {
+                        $(form).append(
+                            $('<input>')
+                                .attr('type', 'hidden')
+                                .attr('name', this.name)
+                                .val(this.value)
+                        );
+                    }
+                });
+                $(form).submit();
+            });
+        }
+    </script>
+{% endblock %}

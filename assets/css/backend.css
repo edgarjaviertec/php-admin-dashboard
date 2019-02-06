@@ -1,0 +1,43 @@
+.sidebar,
+[role="main"] {
+    padding-top: 66px; /* Espacio para la barra de navegación fija  */
+}
+
+
+/* Correcciones para la librería de JavaScript DataTables */
+
+
+.no-sort{
+    text-align: center;
+}
+
+.dataTable td.child {
+    padding: 0;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    white-space: normal;
+}
+
+.dtr-details {
+    width: 100%;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details > li:first-child {
+    padding-top: 0.5em;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details > li {
+    padding: 0.5em;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child:before {
+    top: 7px;
+    border: 2px solid #0275d8;
+    box-shadow: none;
+    border-radius: .2rem;
+}
+
+table.dataTable.dtr-inline.colalapsed > tbody > tr.parent > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child:before {
+    background-color: #0275d8;
+}

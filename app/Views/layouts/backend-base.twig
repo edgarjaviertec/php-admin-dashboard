@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="{{ langAttribute|default('en') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ titleTag|default('Sin título') }}</title>
+    <!--
+    Precargamos la fuente de Font Awesome y los estilos Bootstrap 4 porque se usaran de inmediato
+    -->
+    <link rel="preload"
+          href="https://use.fontawesome.com/releases/v5.7.0/webfonts/fa-solid-900.woff2"
+          crossorigin="anonymous"
+          as="font">
+
+    <link rel="preload"
+          href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          as="style">
+
+    <link rel="preload"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          as="style">
+    <!--
+    Estilos de Bootstrap  y Font Awesome
+    -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    {% block external_css %}{% endblock %}
+    <link rel="stylesheet" href="/assets/css/backend.css">
+    {% block head %}{% endblock %}
+</head>
+<body>
+{% include "partials/Backend-header.twig" %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 sidebar">
+            {% include "partials/Backend-sidebar.twig" %}
+        </nav>
+        <main role="main" class="col-md-10">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+<!--
+JavaScripts externos
+-->
+<script defer src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+{% block external_javascript %}{% endblock %}
+<!--
+JavaScripts insertados directamente en el documento HTML
+-->
+<script>
+    window.onload = function () {
+        var flashMessages = $(".alert.dismissable");
+        if (flashMessages.length) {
+            console.log("SI hay flashMessages");
+            setTimeout(function () {
+                flashMessages.alert('close');
+            }, 3000);
+        } else {
+            console.log("NO hay flashMessages");
+        }
+    }
+</script>
+{% block inline_javascript %}{% endblock %}
+</body>
+</html>
