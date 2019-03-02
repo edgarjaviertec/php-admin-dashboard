@@ -61,7 +61,7 @@ class UserController extends TwigHelpers
                 'username' => $_POST['username'],
                 'email' => $_POST['email'],
                 'password' => $hashedPassword,
-                'accountStatus' => $_POST['accountStatus']
+                'verified' => $_POST['verified']
             ];
             $roleId = $_POST["role"];
             $userId = $this->user->create($data);
@@ -95,7 +95,7 @@ class UserController extends TwigHelpers
             $data = [
                 'username' => $_POST['username'],
                 'email' => $_POST['email'],
-                'accountStatus' => $_POST['accountStatus']
+                'verified' => $_POST['verified']
             ];
             $this->user->removeRole($userId);
             $this->user->assignRole($userId, $roleId);

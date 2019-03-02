@@ -25,7 +25,7 @@ class HomeController extends TwigHelpers
     public function index()
     {
         $data = [
-            "titleTag" => "Usuarios"
+            "titleTag" => "Dashboard"
         ];
         echo $this->view->render('Backend/home.twig', $data);
     }

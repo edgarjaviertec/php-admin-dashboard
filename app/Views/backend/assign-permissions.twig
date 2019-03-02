@@ -105,7 +105,7 @@
 {% endblock %}
 {% block inline_javascript %}
     <script>
-        window.onload = function () {
+        var page = function () {
             var table = $('#dataTable').DataTable({
                 "autoWidth": false,
                 "language": {

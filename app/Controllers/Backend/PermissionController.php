@@ -4,7 +4,6 @@
 namespace App\Controllers\Backend;
 
 use App\Lib\TwigHelpers;
-use App\Lib\TwigTests;
 use App\Models\Permission;
 use App\Lib\Session;
 use Plasticbrain\FlashMessages\FlashMessages;
@@ -37,8 +36,7 @@ class PermissionController extends TwigHelpers
                 "pemiso1", "permiso2", "permiso3"
             ]
         ];
-        $tests = new TwigTests();
-        $this->view->addTest($tests->userPermissionsTest());
+
         echo $this->view->render('Backend/list-permissions.twig', $data);
     }
 

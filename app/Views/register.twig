@@ -1,0 +1,63 @@
+{% extends "/layouts/base.twig" %}
+{% block content %}
+    {% if flashMessages is defined %}
+        {{ flashMessages|raw }}
+    {% endif %}
+
+    <div class="mb-3">
+        <h3 class="mb-0">
+            <span>Registro</span>
+        </h3>
+    </div>
+    <div class="card bg-light">
+        <div class="card-body">
+
+            <p>¿Ya tienes una cuenta? <a href="/login">Login</a></p>
+            <hr>
+
+
+            <form method="POST" action="/register">
+                <input type="hidden" name="id">
+
+                <div class="form-group">
+                    <label for="name">Nombre de usuario</label>
+                    <input type="text"
+                           class="form-control"
+                           id="username"
+                           name="username"
+                           {% if app.session.old.username %}value="{{ app.session.old.username }}"{% endif %} >
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="text"
+                           class="form-control"
+                           id="email"
+                           name="email"
+                           {% if app.session.old.email %}value="{{ app.session.old.email }}"{% endif %} >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Contraseña</label>
+                    <input type="text"
+                           class="form-control"
+                           id="password"
+                           name="password"
+                           {% if app.session.old.password %}value="{{ app.session.old.password }}"{% endif %} >
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Repetir contraseña</label>
+                    <input type="text"
+                           class="form-control"
+                           id="confirmPassword"
+                           name="confirmPassword"
+                           {% if app.session.old.password %}value="{{ app.session.old.confirmPassword }}"{% endif %} >
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-lg btn-primary">Registrarse</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -54,6 +54,12 @@ JavaScripts insertados directamente en el documento HTML
 -->
 <script>
     window.onload = function () {
+        base();
+        if (typeof page === "function") {
+            page();
+        }
+    };
+    var base = function () {
         var flashMessages = $(".alert.dismissable");
         if (flashMessages.length) {
             console.log("SI hay flashMessages");

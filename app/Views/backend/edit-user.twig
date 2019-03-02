@@ -33,13 +33,13 @@
                 <div class="form-group">
                     <span class="d-block mb-2">Estado</span>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="radio2" name="accountStatus" class="custom-control-input"
-                               value="1" {% if user.account_status == 1 %} checked {% endif %} >
+                        <input type="radio" id="radio2" name="verified" class="custom-control-input"
+                               value="1" {% if user.verified == 1 %} checked {% endif %} >
                         <label class="custom-control-label" for="radio2">Verificado</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="radio1" name="accountStatus" class="custom-control-input"
-                               value="0" {% if user.account_status == 0 %} checked {% endif %}>
+                        <input type="radio" id="radio1" name="verified" class="custom-control-input"
+                               value="0" {% if user.verified == 0 %} checked {% endif %}>
                         <label class="custom-control-label" for="radio1">No verificado</label>
                     </div>
                 </div>

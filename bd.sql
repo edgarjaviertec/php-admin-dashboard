@@ -97,14 +97,14 @@ CREATE TABLE `users` (
   `username` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `account_status` tinyint(1) NOT NULL DEFAULT '0'
+  `active` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `account_status`) VALUES
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `active`) VALUES
 (1, 'admin', 'admin@hotmail.com', '$2y$10$wPoSyX.JmIVdhaF4tdBAi.oZzhYXKcrokFEI5x2CL76j2DY4Kd8.i', 1),
 (14, 'usuario_de_prueba', 'test.user@yopmail.com', '$2y$10$xld9KX4XlbutMvlUZMs0GeNTXtnYxkko0LOzXjTqX2Dzc9ihDSvLO', 0),
 (16, 'fdsf', 'sdf@algo.com', '$2y$10$YMU6SgShDCJqC31iX/.Bv.oquWM7vzxuKzz5npe8X6p21xxep5RO.', 1),
@@ -113,19 +113,19 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `account_status`) VA
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `user_roles`
+-- Estructura de tabla para la tabla `users_roles`
 --
 
-CREATE TABLE `user_roles` (
+CREATE TABLE `users_roles` (
   `user_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `user_roles`
+-- Volcado de datos para la tabla `users_roles`
 --
 
-INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
+INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
 (0, 0),
 (1, 1),
 (1, 2),
@@ -170,9 +170,9 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indices de la tabla `user_roles`
+-- Indices de la tabla `users_roles`
 --
-ALTER TABLE `user_roles`
+ALTER TABLE `users_roles`
   ADD PRIMARY KEY (`user_id`,`role_id`);
 
 --

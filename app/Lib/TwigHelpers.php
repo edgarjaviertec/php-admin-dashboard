@@ -9,6 +9,7 @@ use App\Models\UserRole;
 abstract class TwigHelpers
 {
     public $view;
+    public $emailTemplate;
 
 
     public function __construct()
@@ -16,10 +17,20 @@ abstract class TwigHelpers
 
         $app = [
             "session" => $_SESSION,
+            "base_url" => BASE_URL
         ];
 
         $this->view = new \Twig_Environment(
             new \Twig_Loader_Filesystem(Config::STATIC_PATHS['viewDir']), [
+            'auto_reload' => true,
+            'debug' => true,
+            'cache' => false
+        ]);
+
+
+
+        $this->emailTemplate = new \Twig_Environment(
+            new \Twig_Loader_Filesystem(Config::STATIC_PATHS['emailTemplates']), [
             'auto_reload' => true,
             'debug' => true,
             'cache' => false

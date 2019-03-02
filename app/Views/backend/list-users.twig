@@ -7,8 +7,12 @@
     {% if flashMessages is defined %}
         {{ flashMessages|raw }}
     {% endif %}
+
+
     <div class="mb-5">
         <h3 class="mb-0">
+            {{ app.session.logged_user_in }}
+
             <span>Usuarios</span>
             <a href="/backend/users/new" class="ml-2 btn btn-primary">
                 <i class="fas fa-plus"></i>
@@ -41,7 +45,7 @@
                     {{ user.email }}
                 </td>
                 <td class="align-middle">
-                    {% if user.account_status > 0 %}
+                    {% if user.verified > 0 %}
                         <a href="#" class="badge badge-success">Verificado</a>
                     {% else %}
                         <a href="#" class="badge badge-secondary">No verificado</a>
@@ -57,7 +61,8 @@
                     </a>
                     <form class="d-inline" method="POST" action="/backend/users/delete">
                         <input type="hidden" name="id" value="{{ user.id }}">
-                        <button type="button"
+                        <!-- Si el id del usuario coincide con la del usuario loqueado desactivamos el botón de eliminar -->
+                        <button {% if app.session.logged_in_user.id == user.id %} disabled {% endif %} type="button"
                                 class="btn btn-danger"
                                 data-toggle="modal"
                                 data-target="#deleteModal">
@@ -99,7 +104,7 @@
 {% endblock %}
 {% block inline_javascript %}
     <script>
-        window.onload = function () {
+        var page = function () {
             $('#dataTable').DataTable({
                 "autoWidth": false,
                 "language": {

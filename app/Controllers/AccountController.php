@@ -1,14 +1,17 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Lib\Session;
 use App\Lib\TwigHelpers;
 use App\Models\User;
 use Valitron\Validator;
 use Plasticbrain\FlashMessages\FlashMessages;
 use App\Utils\Arrays;
+use Firebase\JWT\JWT;
+use App\Config\Config;
 
-class LoginController extends TwigHelpers
+class AccountController extends TwigHelpers
 {
     private $user;
     private $session;
@@ -59,7 +62,7 @@ class LoginController extends TwigHelpers
             if ($email == $userEmail) {
 
                 // password_verify($password, $hash)
-                if ( password_verify($password, $hash) ) {
+                if (password_verify($password, $hash)) {
                     $userInfo = [
                         "id" => $user["id"],
                         "username" => $user["username"],
@@ -74,8 +77,6 @@ class LoginController extends TwigHelpers
             } else {
                 $this->msg->error("Invalid email address", '/login');
             }
-
-
 
 
         } else {
@@ -97,4 +98,32 @@ class LoginController extends TwigHelpers
         header('Location: /login');
         exit();
     }
+
+
+    public function verifyUser($token)
+    {
+
+        $key = Config::JWT["secret"];
+
+
+        try {
+            $tokenToVerify = $token;
+            $decodedToken = JWT::decode($tokenToVerify, $key, array('HS256'));
+            echo "<pre>";
+            print_r($decodedToken);
+            echo "</pre>";
+
+            echo "<br>";
+            echo "el id del usuario es: " . $decodedToken->userid;
+            // todo: revisar si el id del usuario ya esta activado o no
+
+        } catch (\Exception $e) {
+            echo "El erro es: " . $e->getMessage();
+        }
+
+
+
+    }
+
+
 }
