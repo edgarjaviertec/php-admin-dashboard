@@ -1,0 +1,22 @@
+{% extends "layouts/base.twig" %}
+{% block content %}
+    {% if flashMessages is defined %}
+        {{ flashMessages|raw }}
+    {% endif %}
+
+    <div class="row justify-content-md-center">
+        <div class="col-12  col-md-8  col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="mb-0 h6">Token no válido</h1>
+                </div>
+                <div class="card-body text-center">
+                    {% if error %}
+                        <p>{{ error }}</p>
+                    {% endif %}
+                    <i class="fa fa-arrow-left"></i> <a href="{{ app.base_url }}/">Ir a la página de inicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

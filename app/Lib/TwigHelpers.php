@@ -17,7 +17,7 @@ abstract class TwigHelpers
 
         $app = [
             "session" => $_SESSION,
-            "base_url" => BASE_URL
+            "base_url" => strval(BASE_URL)
         ];
 
         $this->view = new \Twig_Environment(

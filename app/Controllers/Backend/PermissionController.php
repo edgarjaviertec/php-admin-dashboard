@@ -37,7 +37,7 @@ class PermissionController extends TwigHelpers
             ]
         ];
 
-        echo $this->view->render('Backend/list-permissions.twig', $data);
+        echo $this->view->render('backend/list-permissions.twig', $data);
     }
 
     public function displayEditView($id)
@@ -49,7 +49,7 @@ class PermissionController extends TwigHelpers
                 "permission" => $permission,
                 'flashMessages' => $this->msg->display(null, false)
             ];
-            echo $this->view->render('Backend/edit-permission.twig', $data);
+            echo $this->view->render('backend/edit-permission.twig', $data);
         } else {
             header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
             echo '404, route not found!';
@@ -99,7 +99,7 @@ class PermissionController extends TwigHelpers
             "titleTag" => "Nuevo permiso",
             'flashMessages' => $this->msg->display(null, false)
         ];
-        echo $this->view->render('Backend/new-permission.twig', $data);
+        echo $this->view->render('backend/new-permission.twig', $data);
     }
 
 }

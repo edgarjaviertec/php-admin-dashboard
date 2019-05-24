@@ -40,7 +40,7 @@ class UserController extends TwigHelpers
             "users" => $users,
             'flashMessages' => $this->msg->display(null, false),
         ];
-        echo $this->view->render('Backend/list-users.twig', $data);
+        echo $this->view->render('backend/list-users.twig', $data);
     }
 
     public function displayNewView()
@@ -50,7 +50,7 @@ class UserController extends TwigHelpers
             "titleTag" => "Nuevo usuario",
             "roles" => $roles
         ];
-        echo $this->view->render('Backend/new-user.twig', $data);
+        echo $this->view->render('backend/new-user.twig', $data);
     }
 
     public function createUser()

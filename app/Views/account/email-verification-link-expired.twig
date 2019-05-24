@@ -1,0 +1,50 @@
+{% extends "layouts/base.twig" %}
+{% block content %}
+    {% if flashMessages is defined %}
+        {{ flashMessages|raw }}
+    {% endif %}
+
+    <div class="row justify-content-md-center">
+        <div class="col-12  col-md-8  col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                        <h1 class="mb-0 h6">El enlace ha expirado</h1>
+                </div>
+
+                <div class="card-body">
+
+                    <p>El enlace para verificar su correo electrónico ha expirado.</p>
+
+
+                    <form class="d-block" action="/resend-email-verification" method="post">
+                        <input type="hidden" name="id" value="{{ id }}">
+
+
+                        <div class="form-group">
+                            <label for="email" class="mb-0">Volver a enviar un correo electrónico de verificación a:
+                            </label>
+                            <input type="text"
+                                   readonly
+                                   class="form-control-plaintext p-0"
+                                   name="email"
+                                   id="email"
+                                   {% if email %}value="{{ email }}"{% endif %} >
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-block btn-primary" type="submit">Reenviar</button>
+                        </div>
+                        <div class="form-group text-center">
+                            <a href="{{ base_url }}/change-email">¿Necesitas modificar tu correo electrónico?</a>
+
+                        </div>
+
+                        <div class="text-center">
+                            <i class="fa fa-arrow-left"></i> <a href="{{ base_url }}/">Ir a la página de inicio</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

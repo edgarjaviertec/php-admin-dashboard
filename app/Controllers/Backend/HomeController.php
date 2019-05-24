@@ -27,7 +27,7 @@ class HomeController extends TwigHelpers
         $data = [
             "titleTag" => "Dashboard"
         ];
-        echo $this->view->render('Backend/home.twig', $data);
+        echo $this->view->render('backend/home.twig', $data);
     }
 
 

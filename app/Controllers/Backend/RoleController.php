@@ -33,7 +33,7 @@ class RoleController extends TwigHelpers
             "roles" => $roles,
             'flashMessages' => $this->msg->display(null, false),
         ];
-        echo $this->view->render('Backend/list-roles.twig', $data);
+        echo $this->view->render('backend/list-roles.twig', $data);
     }
 
     public function displayEditView($id)
@@ -45,7 +45,7 @@ class RoleController extends TwigHelpers
                 "permission" => $permission,
                 'flashMessages' => $this->msg->display(null, false)
             ];
-            echo $this->view->render('Backend/edit-role.twig', $data);
+            echo $this->view->render('backend/edit-role.twig', $data);
         } else {
             header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
             echo '404, route not found!';
@@ -85,7 +85,7 @@ class RoleController extends TwigHelpers
             "titleTag" => "Nuevo rol",
             'flashMessages' => $this->msg->display(null, false)
         ];
-        echo $this->view->render('Backend/new-role.twig', $data);
+        echo $this->view->render('backend/new-role.twig', $data);
     }
 
 

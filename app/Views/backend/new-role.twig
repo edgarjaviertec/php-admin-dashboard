@@ -1,4 +1,4 @@
-{% extends "/layouts/Backend-base.twig" %}
+{% extends "/layouts/backend-base.twig" %}
 {% block content %}
     {% if flashMessages is defined %}
         {{ flashMessages|raw }}
@@ -11,7 +11,6 @@
     <div class="card bg-light">
         <div class="card-body">
             <form method="POST" action="/backend/roles/create">
-                <input type="hidden" name="id">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Nombre</label>
                     <input type="name" class="form-control" id="name" name="name"

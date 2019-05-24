@@ -19,7 +19,7 @@ $csrf->generateToken();
 $base_url = ( (isset($_SERVER['HTTPS']) ) ? "https" : "http");
 $base_url .= "://".$_SERVER['HTTP_HOST'];
 $base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
-$base_url = rtrim( $base_url,'/').'/';
+$base_url = rtrim( $base_url,'/');
 define('BASE_URL', $base_url);
 
 // Aquí se cargan las rutas de la aplicación

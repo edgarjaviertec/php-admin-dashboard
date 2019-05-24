@@ -51,7 +51,7 @@ class RolePermissionController extends TwigHelpers
             "rolesAndPermissions" => $permissionsByRole,
             'flashMessages' => $this->msg->display(null, false)
         ];
-        echo $this->view->render('Backend/assign-permissions.twig', $data);
+        echo $this->view->render('backend/assign-permissions.twig', $data);
     }
 
     function assignPermissions()

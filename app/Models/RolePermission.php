@@ -19,10 +19,10 @@ class RolePermission extends DB
                       permissions.id AS 'permission_id',
                       permissions.name AS 'permission_name'
                       FROM roles
-                      INNER JOIN role_permissions
-                      ON roles.id = role_permissions.role_id
+                      INNER JOIN roles_permissions
+                      ON roles.id = roles_permissions.role_id
                       INNER JOIN permissions
-                      ON role_permissions.permission_id = permissions.id
+                      ON roles_permissions.permission_id = permissions.id
                       WHERE roles.id = :id";
         $q = $this->db->prepare($statement);
         $q->bindParam(":id", $id, \PDO::PARAM_INT);
@@ -51,7 +51,7 @@ class RolePermission extends DB
 
     public function removeAllPermissions()
     {
-        $q = $this->db->prepare("DELETE FROM role_permissions");
+        $q = $this->db->prepare("DELETE FROM roles_permissions");
         $q->execute();
         $res = $q->rowCount();
         return $res;
@@ -62,7 +62,7 @@ class RolePermission extends DB
         $insertedIds = [];
         if (count($permissions) > 0) {
             foreach ($permissions as $permission) {
-                $statement = "INSERT INTO role_permissions(role_id, permission_id) VALUES(:role_id, :permission_id)";
+                $statement = "INSERT INTO roles_permissions(role_id, permission_id) VALUES(:role_id, :permission_id)";
                 $q = $this->db->prepare($statement);
                 $q->bindParam(":role_id", $permission["role_id"], \PDO::PARAM_INT);
                 $q->bindParam("permission_id", $permission["permission_id"], \PDO::PARAM_INT);

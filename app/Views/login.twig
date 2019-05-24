@@ -1,31 +1,74 @@
 {% extends "layouts/base.twig" %}
 {% block content %}
-    {% if flashMessages is defined %}
-        {{flashMessages|raw}}
-    {% endif %}
-    <form action="/login" method="post">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <div class="form-group">
-            <label for="inputEmail">Email address</label>
-            <input type="email"
-                   id="inputEmail"
-                   name="inputEmail"
-                   class="form-control"
-                   placeholder="Email address"
-                   autocomplete="off"
-                   autofocus>
+
+
+
+
+
+
+
+
+    <div class="row justify-content-md-center">
+        <div class="col-12  col-md-8  col-xl-6">
+            {% if flashMessages is defined %}
+                {{ flashMessages|raw }}
+            {% endif %}
+
+
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h1 class="mb-0 h6">Inicia sesión</h1>
+                </div>
+
+                <div class="card-body">
+                    <form action="{{ app.base_url }}/login" method="post">
+
+
+
+                        <div class="form-group">
+                            <label for="email">Correo electrónico</label>
+                            <input type="text"
+                                   id="email"
+                                   name="email"
+                                   class="form-control"
+                                   autocomplete="off"
+                                   autofocus
+                                   {% if app.session.old.email %}value="{{ app.session.old.email }}"{% endif %}
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Contraseña</label>
+                            <input type="text"
+                                   id="password"
+                                   name="password"
+                                   class="form-control"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <a href="{{ app.base_url }}/register">Registrarse</a> | <a
+                                    href="{{ app.base_url }}/forgot-password">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <div class="text-center">
+                            <i class="fa fa-arrow-left"></i> <a href="{{ app.base_url }}/">Ir a la página de inicio</a>
+                        </div>
+
+
+
+                    </form>
+
+
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="inputPassword">Password</label>
-            <input type="password"
-                   id="inputPassword"
-                   name="inputPassword"
-                   class="form-control"
-                   placeholder="Password"
-            >
-        </div>
-        <div class="form-group">
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        </div>
-    </form>
+    </div>
+
+
+
+
 {% endblock %}

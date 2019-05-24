@@ -42,7 +42,6 @@ class User extends DB
     }
 
 
-
     public function getByUsername($username)
     {
         $statement = "SELECT * FROM users WHERE username = :username";
@@ -109,6 +108,29 @@ class User extends DB
         $res = $this->db->lastInsertId();
         return $res;
     }
+
+    public function verifyEmail($userId)
+    {
+        $statement = "UPDATE users SET verified=1 WHERE id=:id";
+        $q = $this->db->prepare($statement);
+        $q->bindParam(":id", $userId, \PDO::PARAM_INT);
+        $q->execute();
+        $res = $q->rowCount();
+        return $res;
+    }
+
+
+    public function checkIfEmailIsVerified($userId)
+    {
+        $statement = "SELECT * FROM users WHERE verified=1 AND id=:id";
+        $q = $this->db->prepare($statement);
+        $q->bindParam(":id", $userId, \PDO::PARAM_INT);
+        $q->execute();
+        $res = $q->fetch();
+        return $res;
+
+    }
+
 
     public function changePassword($id, $newPassword)
     {

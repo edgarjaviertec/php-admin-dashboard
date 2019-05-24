@@ -18,9 +18,6 @@ class BackendRoutes
             $router->get('/permissions/(\d+)/edit', $ns . 'PermissionController@displayEditView');
             $router->get('/permissions/create', $ns . 'PermissionController@displayNewView');
 
-
-
-
             // Rutas para la sección "Usuarios"
             $router->get('/users', $ns . 'UserController@index');
             $router->get('/users/new', $ns . 'UserController@displayNewView');
@@ -39,11 +36,8 @@ class BackendRoutes
             $router->post('/roles/update', $ns . 'RoleController@updateRole');
             $router->post('/roles/delete', $ns . 'RoleController@deleteRole');
 
-
-
-
-            $router->get('/users/(\d+)/change-password', $ns . 'RegisterController@displayChangePasswordView');
-            $router->post('/users/change-password', $ns . 'RegisterController@changeUserPassword');
+            $router->get('/users/(\d+)/change-password', $ns . 'UserController@displayChangePasswordView');
+            $router->post('/users/change-password', $ns . 'UserController@changeUserPassword');
             $router->get('/assign-permissions', $ns . 'RolePermissionController@index');
             $router->post('/assign-permissions', $ns . 'RolePermissionController@assignPermissions');
         });

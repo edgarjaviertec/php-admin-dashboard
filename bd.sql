@@ -68,19 +68,19 @@ INSERT INTO `roles` (`id`, `name`, `display_name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `role_permissions`
+-- Estructura de tabla para la tabla `roles_permissions`
 --
 
-CREATE TABLE `role_permissions` (
+CREATE TABLE `roles_permissions` (
   `role_id` int(11) NOT NULL,
   `permission_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `role_permissions`
+-- Volcado de datos para la tabla `roles_permissions`
 --
 
-INSERT INTO `role_permissions` (`role_id`, `permission_id`) VALUES
+INSERT INTO `roles_permissions` (`role_id`, `permission_id`) VALUES
 (1, 1),
 (1, 3),
 (1, 5),
@@ -156,9 +156,9 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `role_permissions`
+-- Indices de la tabla `roles_permissions`
 --
-ALTER TABLE `role_permissions`
+ALTER TABLE `roles_permissions`
   ADD PRIMARY KEY (`role_id`,`permission_id`);
 
 --
