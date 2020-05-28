@@ -1,4 +1,8 @@
-# php-admin-dashboard
+## php-admin-dashboard
+
+### Capturas
+
+Aquí hay algunas capturas de como se ve el panel de administración 
 
 ![Captura 1](https://raw.githubusercontent.com/edgarjaviertec/php-admin-dashboard/master/capturas-de-pantalla/Inicia%20sesi%C3%B3n.png)
 
