@@ -42,7 +42,7 @@ Configura y ejecuta tu servidor web apuntando a la raíz
 
 ### Datos de acceso
 
-| Primer encabezado | Segundo encabezado |
+| Usuario | Contraseña |
 | ------------- | ------------- |
 | `admin@yopmail.com` | admin|
 | `user1@yopmail.com`  | user1  |
