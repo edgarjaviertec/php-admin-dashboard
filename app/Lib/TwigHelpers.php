@@ -2,7 +2,6 @@
 
 namespace App\Lib;
 
-use App\Config\Config;
 use App\Models\RolePermission;
 use App\Models\UserRole;
 
@@ -11,33 +10,26 @@ abstract class TwigHelpers
     public $view;
     public $emailTemplate;
 
-
     public function __construct()
     {
-
         $app = [
             "session" => $_SESSION,
             "base_url" => strval(BASE_URL)
         ];
-
-        $this->view = new \Twig_Environment(
-            new \Twig_Loader_Filesystem(Config::STATIC_PATHS['viewDir']), [
+        $this->view = new \Twig\Environment(
+            new \Twig\Loader\FilesystemLoader(config('app_views_folder')), [
             'auto_reload' => true,
             'debug' => true,
             'cache' => false
         ]);
-
-
-
-        $this->emailTemplate = new \Twig_Environment(
-            new \Twig_Loader_Filesystem(Config::STATIC_PATHS['emailTemplates']), [
+        $this->emailTemplate = new \Twig\Environment(
+            new \Twig\Loader\FilesystemLoader(config('app_email_templates_folder')), [
             'auto_reload' => true,
             'debug' => true,
             'cache' => false
         ]);
-
         // Función que comprueba si los permisos del usuario loegueado coinciden con los permisos solicitados
-        $ability = new \Twig_SimpleFunction('ability', function () {
+        $ability = new \Twig\TwigFunction('ability', function () {
             // Si hay algún argumento en la función de twig y ademas el usuario esta logueado
             if (count(func_get_args()) > 0 && !empty($_SESSION["logged_in_user"])) {
                 $perms = func_get_args();
@@ -65,6 +57,4 @@ abstract class TwigHelpers
         $this->view->addFunction($ability);
         $this->view->addGlobal('app', $app);
     }
-
-
 }

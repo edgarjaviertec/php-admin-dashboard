@@ -2,7 +2,6 @@
 
 namespace App\Lib;
 
-use App\Config\Config;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class MyMailer extends PHPMailer
@@ -10,24 +9,18 @@ class MyMailer extends PHPMailer
     public function __construct($exceptions = null)
     {
         parent::__construct($exceptions);
-
         //Server settings
-        $this->SMTPDebug = Config::PHP_MAILER["SMTPDebug"];
+        $this->SMTPDebug = config('mail_debug');
         $this->isSMTP();
-        $this->Host = Config::PHP_MAILER["Host"];
-        $this->SMTPAuth = Config::PHP_MAILER["SMTPAuth"];
-        $this->Username = Config::PHP_MAILER["Username"];
-        $this->Password = Config::PHP_MAILER["Password"];
-        $this->SMTPSecure = Config::PHP_MAILER["SMTPSecure"];
-        $this->Port = Config::PHP_MAILER["Port"];
-
+        $this->Host = config('mail_host');
+        $this->SMTPAuth = config('mail_auth');
+        $this->Username = config('mail_username');
+        $this->Password = config('mail_password');
+        $this->SMTPSecure = config('mail_encryption');
+        $this->Port = config('mail_port');
         $this->CharSet = 'UTF-8';
         $this->Encoding = 'base64';
-
         //Recipients
-        $this->setFrom(Config::PHP_MAILER["setFromAddress"], Config::PHP_MAILER["setFromName"]);
-
+        $this->setFrom(config('mail_from_address'), config('mail_from_name'));
     }
-
-
 }

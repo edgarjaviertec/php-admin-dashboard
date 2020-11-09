@@ -5,29 +5,22 @@ namespace App\Controllers;
 use Firebase\JWT\ExpiredException;
 use Plasticbrain\FlashMessages\FlashMessages;
 use Firebase\JWT\JWT;
-
-use App\Config\Config;
-
 use App\Lib\Sanitization;
 use App\Lib\Validation;
 use App\Lib\MyJWT;
 use App\Lib\MyMailer;
 use App\Lib\Session;
 use App\Lib\TwigHelpers;
-
 use App\Models\User;
 use App\Models\Role;
-
 
 class AccountController extends TwigHelpers
 {
     private $user;
     private $session;
     private $msg;
-
     private $role;
     private $sanitization;
-
 
     public function __construct()
     {
@@ -35,7 +28,6 @@ class AccountController extends TwigHelpers
         $this->user = new User();
         $this->session = new Session();
         $this->msg = new FlashMessages;
-
         $this->role = new Role();
         $this->sanitization = new Sanitization();
     }
@@ -46,7 +38,6 @@ class AccountController extends TwigHelpers
             header('Location: /Backend');
             exit();
         }
-
         $data = [
             'titleTag' => "Inicia sesión",
             'flashMessages' => $this->msg->display(null, false)
@@ -56,19 +47,13 @@ class AccountController extends TwigHelpers
 
     public function login()
     {
-
         $errors = [];
-
-
         if (empty($_POST["email"])) {
             array_push($errors, "El campo de correo electrónico es requerido");
         }
-
         if (empty($_POST["password"])) {
             array_push($errors, "El campo de contraseña es requerido");
         }
-
-
         if (count($errors) > 0) {
             $data = [
                 "messages" => $errors
@@ -76,66 +61,41 @@ class AccountController extends TwigHelpers
             $errorMessages = $this->view->render('misc/flash-messages.twig', $data);
             $this->msg->error($errorMessages, BASE_URL . "/login");
         } else {
-
             $this->session->add("old", $_POST);
-
-
             $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);
             $email = filter_var($email, FILTER_SANITIZE_EMAIL);
             $password = filter_var(trim($_POST['password']), FILTER_SANITIZE_STRING);
-
-
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-
                 $this->msg->error("El correo del usuario no es valido", BASE_URL . '/login');
-
-
             } else {
                 $user = $this->user->getByEmail($email);
                 $hash = $user["password"];
                 $userId = $user["id"];
                 $emailVerified = $this->user->checkIfEmailIsVerified($userId);
-
                 if (!$user) {
                     $this->msg->error("La dirección de correo electrónico que introdujo no existe", BASE_URL . "/login");
                 } else {
-
-
                     if ($emailVerified) {
-
-
                         if (password_verify($password, $hash)) {
                             $userInfo = [
                                 "id" => $user["id"],
                                 "username" => $user["username"],
                                 "email" => $user["email"]
                             ];
-
-
                             $this->session->add('logged_in_user', $userInfo);
-
                             // Quitamos los datos del formulario de la sesión
                             $this->session->remove("old");
-
                             header("Location: " . BASE_URL . "/backend");
                             exit();
                         } else {
                             $this->msg->error("La contraseña es incorrecta", BASE_URL . '/login');
                         }
-
-
                     } else {
                         $this->msg->error("No puede iniciar sesión si no ha verificado su correo electrónico. Por favor, revise su correo electrónico para activarlo.", BASE_URL . "/login");
                     }
-
-
                 }
             }
-
-
         }
-
-
     }
 
     public function logout()
@@ -148,31 +108,20 @@ class AccountController extends TwigHelpers
     public function resendEmaiVerification()
     {
         if (isset($_POST)) {
-
             $email = $_POST["email"];
-
-
             $user = $this->user->getByEmail($email);
-
             if ($user) {
-
-
                 $userId = $user["id"];
                 $username = $user["username"];
-
-
                 $payload = array(
                     'userid' => $userId,
-                    'exp' => time() + Config::JWT["expiration"]
+                    'exp' => time() + config('jwt_expiration')
                 );
-                $key = Config::JWT["secret"];
+                $key = config('jwt_secret');
                 $alg = 'HS256';
                 $token = JWT::encode($payload, $key, $alg);
-
-
                 $mailer = new MyMailer(true);                              // Passing `true` enables exceptions
                 $link = BASE_URL . "user-verification/" . $token;
-
                 try {
                     $data = [
                         "username" => $username,
@@ -184,41 +133,27 @@ class AccountController extends TwigHelpers
                     $mailer->Subject = 'Verifica tu dirección de correo electrónico';
                     $mailer->Body = $html;
                     $mailer->send();
-
-
                     $this->msg->success("Se envío un correo electrónico de verificación. Por favor, revisa tu correo electrónico.", BASE_URL . "login");
                 } catch (Exception $e) {
                     $this->msg->error('No se pudo enviar el mensaje. Error del remitente: ', $mailer->ErrorInfo, BASE_URL . "register");
                 }
-
-
             }
-
-
         }
     }
 
     public function showResetPassword($token)
     {
-
-
-        $key = Config::JWT["secret"];
-
-
+        $key = config('jwt_secret');
         try {
             $tokenToVerify = $token;
             $decodedToken = JWT::decode($tokenToVerify, $key, array('HS256'));
             $userId = $decodedToken->userid;
-
-
             $data = [
                 'titleTag' => "Restablecer la contraseña",
                 'flashMessages' => $this->msg->display(null, false),
                 "token" => $token
             ];
             echo $this->view->render('account/reset-password.twig', $data);
-
-
         } catch (ExpiredException $e) {
             $erroMessage = $e->getMessage();
             $data = [
@@ -236,37 +171,28 @@ class AccountController extends TwigHelpers
             ];
             echo $this->view->render('account/invalid-token.twig', $data);
         }
-
-
     }
 
     public function resetPassword($token)
     {
-
-
         $errors = [];
-
-
         if (empty($_POST["password"])) {
             array_push($errors, "El campo de contraseña es requerido");
         }
         if (empty($_POST["confirmPassword"])) {
             array_push($errors, "El campo para confirmar la contraseña es requerido");
         }
-
         if (count($errors) > 0) {
             $data = [
                 "messages" => $errors
             ];
             $errorMessages = $this->view->render('misc/flash-messages.twig', $data);
             $this->msg->error($errorMessages, BASE_URL . "/reset-password/" . $token);
-
         } else {
             $password = filter_var(trim($_POST["password"]), FILTER_SANITIZE_STRING);
             $confirmPassword = trim($_POST["confirmPassword"], FILTER_SANITIZE_STRING);
             if (strcmp($password, $confirmPassword) !== 0) {
                 $this->msg->error("La contraseña del usuario no coincide.", BASE_URL . "/reset-password/" . $token);
-
             } else {
                 $myJWT = new MyJWT();
                 $payLoad = $myJWT->getPayload($token);
@@ -283,15 +209,11 @@ class AccountController extends TwigHelpers
                     echo $this->view->render('account/invalid-token.twig', $data);
                 }
             }
-
         }
-
-
     }
 
     public function showForgotPassword()
     {
-
         $data = [
             'titleTag' => "¿Olvidaste tu contraseña?",
             'flashMessages' => $this->msg->display(null, false),
@@ -301,43 +223,26 @@ class AccountController extends TwigHelpers
 
     public function forgotPassword()
     {
-
-
         if (!empty($_POST["email"])) {
-
             $this->session->add("old", $_POST);
-
-
             $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_STRING);
             $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-
-
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->msg->error("El correo electrónico no es valido.", BASE_URL . "/forgot-password");
             } else {
-
-
                 $user = $this->user->getByEmail($email);
-
                 if ($user) {
-
-
                     $userId = $user["id"];
                     $username = $user["username"];
-
-
                     $payload = array(
                         'userid' => $userId,
-                        'exp' => time() + Config::JWT["expiration"]
+                        'exp' => time() + config('jwt_expiration')
                     );
-                    $key = Config::JWT["secret"];
+                    $key = config('jwt_secret');
                     $alg = 'HS256';
                     $token = JWT::encode($payload, $key, $alg);
-
-
                     $mailer = new MyMailer(true);                              // Passing `true` enables exceptions
                     $link = BASE_URL . "/reset-password/" . $token;
-
                     try {
                         $data = [
                             "email" => $email,
@@ -350,42 +255,24 @@ class AccountController extends TwigHelpers
                         $mailer->Subject = 'Restablecer contraseña';
                         $mailer->Body = $html;
                         $mailer->send();
-
-
                         // Quitamos los datos del formulario de la sesión
                         $this->session->remove("old");
-
                         $this->msg->success("Por favor revise su correo electrónico, recibirá un enlace para restablecer su contraseña.", BASE_URL . "/forgot-password");
                     } catch (Exception $e) {
                         $this->msg->error('No se pudo enviar el mensaje. Error del remitente: ', $mailer->ErrorInfo, BASE_URL . "/forgot-password");
                     }
-
-
                 } else {
                     $this->msg->error("La dirección de correo electrónico que introdujo no existe", BASE_URL . "/forgot-password");
-
                 }
-
-
             }
-
-
         } else {
-
             $this->msg->error("El campo de correo electrónico es requerido", BASE_URL . "/forgot-password");
-
-
         }
-
-
     }
 
     public function verifyUser($token)
     {
-
-        $key = Config::JWT["secret"];
-
-
+        $key = config('jwt_secret');
         try {
             $tokenToVerify = $token;
             $decodedToken = JWT::decode($tokenToVerify, $key, array('HS256'));
@@ -425,7 +312,6 @@ class AccountController extends TwigHelpers
             ];
             echo $this->view->render('account/invalid-token.twig', $data);
         }
-
     }
 
     public function showRegisterUser()
@@ -444,25 +330,19 @@ class AccountController extends TwigHelpers
     {
         // Guardamos los datos del formulario en una variable de sesión llamada "old"
         $this->session->add("old", $_POST);
-
         $errors = [];
-
         if (empty($_POST["username"])) {
             array_push($errors, "El campo de nombre de usuario es requerido");
         }
-
         if (empty($_POST["email"])) {
             array_push($errors, "El campo de correo electrónico es requerido");
         }
-
         if (empty($_POST["password"])) {
             array_push($errors, "El campo de contraseña es requerido");
         }
-
         if (empty($_POST["confirmPassword"])) {
             array_push($errors, "El campo para confirmar la contraseña es requerido");
         }
-
         // Si no hay errores de campos vacíos, entonces aplicamos los filtros de validación
         if (!count($errors) > 0) {
             $postTrimmed = $this->sanitization->getPostVarsTrimmed($_POST);
@@ -506,9 +386,9 @@ class AccountController extends TwigHelpers
                 }
                 $payload = array(
                     'userid' => $userId,
-                    'exp' => time() + Config::JWT["expiration"]
+                    'exp' => time() + config('jwt_expiration')
                 );
-                $key = Config::JWT["secret"];
+                $key = config('jwt_secret');
                 $alg = 'HS256';
                 $token = JWT::encode($payload, $key, $alg);
                 $mailer = new MyMailer(true);                              // Passing `true` enables exceptions
@@ -545,6 +425,4 @@ class AccountController extends TwigHelpers
             $this->msg->error($errorMessages, BASE_URL . "/register");
         }
     }
-
-
 }
