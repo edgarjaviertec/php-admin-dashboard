@@ -1,5 +1,46 @@
 ## php-admin-dashboard
 
+### Instalación
+
+#### Paso 1
+
+```
+git clone https://github.com/edgarjaviertec/php-admin-dashboard.git
+```
+
+#### Paso 2
+
+```
+cd php-admin-dashboard 
+```
+
+#### Paso 3
+
+```
+composer install
+```
+
+#### Paso 4
+
+Crea una base de datos con phpMyAdmin o con tu programa favorito e importa db.sql
+
+#### Paso 5
+Localiza el php-admin-dashboard/app/.env y agrega los datos de tu base de datos
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=my_dashboard
+DB_USERNAME=root
+DB_PASSWORD=root
+```
+
+#### Paso 6
+
+Configura y ejecuta tu servidor web apuntando a la raíz
+
+
 ### Capturas
 
 Aquí hay algunas capturas de como se ve el panel de administración 
