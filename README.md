@@ -44,8 +44,8 @@ Configura y ejecuta tu servidor web apuntando a la raíz
 
 | Primer encabezado | Segundo encabezado |
 | ------------- | ------------- |
-| admin@yopmail.com | admin|
-| user1@yopmail.com  | user1  |
+| `admin@yopmail.com` | admin|
+| `user1@yopmail.com`  | user1  |
 
 
 ### Capturas
